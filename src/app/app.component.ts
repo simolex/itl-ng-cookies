@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { LocalService } from './local.service';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  currencyIndex = 0;
-  productsData = [
+  private countCurrencies;
+  private currencyIndex = 0;
+  private exchanges = [
+    { type: '$', rate: 1 },
+    { type: '₽', rate: 90 },
+    { type: 'Br', rate: 3 },
+    { type: '€', rate: 1.1 },
+    { type: '¥', rate: 6.9 },
+  ];
+  public productsData = [
     {
       image: '1.png',
       title: 'Лучшие друзья',
@@ -106,49 +116,59 @@ export class AppComponent {
     },
   ];
 
-  scrollTo(target: HTMLElement) {
-    target.scrollIntoView({ behavior: 'smooth' });
+  public form = this.fb.group({
+    product: ['', Validators.required],
+    name: ['', Validators.required],
+    phone: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern('^((\\+7-?))?[0-9]{3}-[0-9]{3}-[0-9]{4}$'),
+      ],
+    ],
+  });
+
+  constructor(private store: LocalService, private fb: FormBuilder) {
+    this.countCurrencies = this.exchanges.length;
+
+    let savedCurrency = store.getData('currentCurrency');
+    if (savedCurrency) {
+      this.currencyIndex = +savedCurrency;
+    }
+    this.setPrices();
   }
 
-  changeCurrency() {
-    const priceSlots = document.querySelectorAll('.products-item-price');
-    const currency = document.getElementById('change-currency');
-    const exchanges = [
-      { type: '$', rate: 1 },
-      { type: '₽', rate: 90 },
-      { type: 'Br', rate: 3 },
-      { type: '€', rate: 1.1 },
-      { type: '¥', rate: 6.9 },
-    ];
-    const countExch = exchanges.length;
-
-    const setPrices = (currencyIndex: string) => {
-      const currencyInd = +currencyIndex;
-      priceSlots.forEach((slot) => {
-        slot.innerText = `${(
-          +slot.dataset.basePrice * exchanges[currencyInd].rate
-        ).toFixed(1)} ${exchanges[currencyInd].type}`;
-      });
-    };
-
-    let savedCurrency = localStorage.getItem('currentCurrency');
-    if (!savedCurrency) {
-      savedCurrency = '0';
-    }
-    setPrices(savedCurrency);
-    currency.dataset.currency = savedCurrency;
-    currency.innerText = exchanges[savedCurrency].type;
-
-    currency.addEventListener('click', function (e) {
-      let currencyIndex = +e.target.dataset.currency;
-
-      currencyIndex = (currencyIndex + 1) % countExch;
-      localStorage.setItem('currentCurrency', currencyIndex);
-
-      e.target.dataset.currency = currencyIndex;
-      e.target.innerText = exchanges[currencyIndex].type;
-
-      setPrices(currencyIndex);
+  private setPrices() {
+    this.productsData.forEach((item) => {
+      item.price = item.basePrice * this.exchanges[this.currencyIndex].rate;
     });
+  }
+
+  public scrollTo(target: HTMLElement, product?: any) {
+    target.scrollIntoView({ behavior: 'smooth' });
+
+    if (product) {
+      this.form.patchValue({
+        product: `${product.title} (${product.price} ${this.getCurrency()})`,
+      });
+    }
+  }
+
+  public getCurrency() {
+    return this.exchanges[this.currencyIndex].type;
+  }
+
+  public changeCurrency() {
+    this.currencyIndex = (this.currencyIndex + 1) % this.countCurrencies;
+    this.store.saveData('currentCurrency', `${this.currencyIndex}`);
+
+    this.setPrices();
+  }
+
+  public confirmOrder() {
+    if (this.form.valid) {
+      alert('Спасибо за заказ!\nМенеджер скоро с вам свяжется.');
+      this.form.reset();
+    }
   }
 }

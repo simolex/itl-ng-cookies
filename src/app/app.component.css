@@ -280,6 +280,10 @@
   left: 0;
 }
 
+.order-form-inputs input.error {
+  border-color: red;
+}
+
 @media (max-width: 1400px) {
   .container {
     max-width: 1140px;
