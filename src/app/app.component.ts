@@ -119,13 +119,7 @@ export class AppComponent {
   public form = this.fb.group({
     product: ['', Validators.required],
     name: ['', Validators.required],
-    phone: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern('^((\\+7-?))?[0-9]{3}-[0-9]{3}-[0-9]{4}$'),
-      ],
-    ],
+    phone: ['', Validators.required],
   });
 
   constructor(private store: LocalService, private fb: FormBuilder) {

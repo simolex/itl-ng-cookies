@@ -4,6 +4,7 @@
   --bg-color: var(--second-color);
   --primary-button-hover: #eee;
   --second-button-hover: #210ef1;
+  --second-button-disabled: #7e73f7;
   --price-color: var(--primary-color);
   --card-bg-color: #fff;
   --card-text-color: #5d3427;
@@ -46,7 +47,7 @@ body {
   font-size: 18px;
   width: 178px;
   padding: 18px 46px;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 60px;
   background-color: var(--primary-color);
   color: var(--second-color);
@@ -67,8 +68,9 @@ body {
 
 .button:disabled {
   cursor: not-allowed;
-  color: gray;
-  background-color: #343434;
+  opacity: 45%;
+  border: 1px solid darkgray;
+  color: darkgray;
 }
 
 .button.violet-button:hover:not(:disabled) {
