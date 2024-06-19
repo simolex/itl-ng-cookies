@@ -1,1 +1,111 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-color: #fff;
+  --second-color: #5243f4;
+  --bg-color: var(--second-color);
+  --primary-button-hover: #eee;
+  --second-button-hover: #210ef1;
+  --price-color: var(--primary-color);
+  --card-bg-color: #fff;
+  --card-text-color: #5d3427;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Steppe";
+  src: url("./assets/fonts/Steppe-Book.ttf");
+  font-display: swap;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Steppe";
+  src: url("./assets/fonts/Steppe-ExtraBold.ttf");
+  font-display: swap;
+  font-weight: 1000;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: "Steppe", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.button {
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 18px;
+  width: 178px;
+  padding: 18px 46px;
+  border: none;
+  border-radius: 60px;
+  background-color: var(--primary-color);
+  color: var(--second-color);
+
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.violet-button {
+  background-color: var(--second-color);
+  color: var(--primary-color);
+}
+
+.button.violet-button:hover {
+  background-color: var(--second-button-hover);
+}
+
+.currency {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  text-align: center;
+  padding: 5px 10px;
+  height: 25px;
+  min-width: 25px;
+  cursor: pointer;
+  line-height: 28px;
+  border: 1px solid var(--price-color);
+  border-radius: 50px;
+  transform: scale(1);
+  animation: pulse 2s infinite;
+  backdrop-filter: blur(3px);
+  z-index: 1;
+  user-select: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.common-title {
+  font-size: 60px;
+  line-height: 1;
+  font-weight: 1000;
+  text-align: center;
+}
