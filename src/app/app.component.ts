@@ -159,6 +159,18 @@ export class AppComponent {
     }
   }
 
+  switchSugarFree(e: any) {
+    this.http
+      .get(
+        'https://testologia.ru/cookies' +
+          (e.currentTarget.checked ? '?sugarfree' : '')
+      )
+      .subscribe((data) => {
+        this.productsData = data;
+        this.setPrices();
+      });
+  }
+
   public getCurrency() {
     return this.exchanges[this.currencyIndex].type;
   }
