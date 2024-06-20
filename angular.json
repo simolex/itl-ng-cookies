@@ -36,8 +36,7 @@
                   "maximumError": "1mb"
                 }
               ],
-              "outputHashing": "all",
-              "baseHref": "https://simolex.github.io/itl-ng-cookies/"
+              "outputHashing": "all"
             },
             "development": {
               "buildOptimizer": false,
@@ -77,6 +76,9 @@
             "styles": ["src/styles.css"],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
