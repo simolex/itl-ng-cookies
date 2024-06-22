@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "ng build  --output-path docs --base-href https://simolex.github.io/itl-ng-cookies"
   },
   "private": true,
   "dependencies": {
