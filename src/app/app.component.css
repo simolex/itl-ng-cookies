@@ -93,6 +93,12 @@
   height: 272px;
   top: -70px;
   max-width: 100%;
+  transition: transform 0.3s ease;
+  will-change: transform;
+}
+
+.products-item-image img:hover {
+  transform: scale(1.05);
 }
 
 .products-item-details {
@@ -331,6 +337,29 @@
   width: 50px;
 }
 
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--second-color);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  will-change: opacity;
+}
+
+.loader.showed {
+  opacity: 1;
+}
+.loader lottie-player {
+  display: block;
+  width: 300px;
+  height: 300px;
+}
 @media (max-width: 1400px) {
   .container {
     max-width: 1140px;

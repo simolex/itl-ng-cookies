@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { LocalService } from './local.service';
 
@@ -116,12 +116,29 @@ export class AppComponent {
   //     weight: '4&nbsp;шт./ 400&nbsp;гр.',
   //   },
   // ];
-
+  public loader = true;
+  public loaderShowed = true;
   public form = this.fb.group({
     product: ['', Validators.required],
     name: ['', Validators.required],
     phone: ['', Validators.required],
   });
+
+  public mainImageStyle: any;
+  public orderImageStyle: any;
+  @HostListener('document:mousemove', ['$event'])
+  onMousemove(e: MouseEvent) {
+    this.mainImageStyle = {
+      transform: `translate(${(e.clientX * 0.2) / 8}px, ${
+        (e.clientY * 0.1) / 8
+      }px)`,
+    };
+    this.orderImageStyle = {
+      transform: `translate(-${(e.clientX * 0.2) / 8}px, -${
+        (e.clientY * 0.1) / 8
+      }px)`,
+    };
+  }
 
   constructor(
     private store: LocalService,
@@ -137,6 +154,13 @@ export class AppComponent {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.loaderShowed = false;
+    }, 2000);
+    setTimeout(() => {
+      this.loader = false;
+    }, 3000);
+
     this.http.get('https://testologia.ru/cookies').subscribe((data) => {
       this.productsData = data;
       this.setPrices();
